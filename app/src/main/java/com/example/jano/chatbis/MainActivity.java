@@ -24,6 +24,7 @@ private WebSocketClient miWebSocket;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Al lanzar la aplicación se ocnecta con el servidor a traves del websocket
         conectarse();
 
     }

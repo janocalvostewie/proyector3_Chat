@@ -13,7 +13,7 @@
         android:layout_height="66dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+
         tools:layout_editor_absoluteX="26dp"
         tools:layout_editor_absoluteY="415dp"
         android:layout_alignTop="@+id/bEnviar"
