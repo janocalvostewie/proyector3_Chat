@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,14 +7,41 @@
     tools:context="com.example.jano.chatbis.MainActivity">
 
 
+    <EditText
+        android:id="@+id/etMensaje"
+        android:layout_width="221dp"
+        android:layout_height="66dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="415dp"
+        android:layout_alignTop="@+id/bEnviar"
+        android:layout_alignStart="@+id/mlChat" />
 
-    <WebView
-        android:layout_width="379dp"
-        android:layout_height="519dp"
-        tools:layout_editor_absoluteX="6dp"
-        android:id="@+id/weby"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        tools:layout_editor_absoluteY="-13dp" />
+    <EditText
+        android:id="@+id/mlChat"
+        android:layout_width="332dp"
+        android:layout_height="373dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp"
+        android:layout_marginTop="17dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/bEnviar"
+        android:layout_width="83dp"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="15dp"
+        android:background="@android:drawable/ic_dialog_email"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:onClick="enviaMensaje"
+        tools:layout_editor_absoluteX="-201dp"
+        tools:layout_editor_absoluteY="214dp" />
+</RelativeLayout>
