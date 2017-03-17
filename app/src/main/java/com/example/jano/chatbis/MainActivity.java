@@ -1,18 +1,20 @@
 package com.example.jano.chatbis;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import java.net.URI;
+        import android.os.Bundle;
+        import android.util.Log;
+        import android.view.View;
+        import android.support.v7.app.AppCompatActivity;
+        import android.widget.EditText;
+        import android.widget.TextView;
+
+        import org.java_websocket.client.WebSocketClient;
+        import org.java_websocket.handshake.ServerHandshake;
+        import java.net.URISyntaxException;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    private WebView wv;
-
-
+private WebSocketClient miWebSocket;
 
 
     @Override
@@ -20,23 +22,56 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        WebView wv = (WebView)findViewById(R.id.weby);
-        wv.getSettings().setJavaScriptEnabled(true);
-
-        wv.setWebChromeClient(new WebChromeClient() {
-            public void onProgressChanged(WebView view, int progress) {
-            }
-        });
-        wv.setWebViewClient(
-                new WebViewClient(){
-                    public boolean shouldOverrideUrlLoading(WebView view, String url){
-                        view.loadUrl(url);
-                        return false;
-                    }
-                });
-        wv.loadUrl("https://chatnodejs-jano22.c9users.io/");
-        wv.addJavascriptInterface(new WebSocketFactory(wv), "WebSocketFactory");
-       // mWebView.loadUrl();
 
     }
+
+
+    private void connectWebSocket() {
+        URI uri;
+        try {
+            uri = new URI("ws://chatnodejs-jano22.c9users.io:8080");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        miWebSocket = new WebSocketClient(uri) {
+            @Override
+            public void onOpen(ServerHandshake serverHandshake) {
+                Log.i("Websocket", "Opened");
+                miWebSocket.send("Hello from " + Build.MANUFACTURER + " " + Build.MODEL);
+            }
+
+            @Override
+            public void onMessage(String s) {
+                final String message = s;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView textView = (TextView)findViewById(R.id.messages);
+                        textView.setText(textView.getText() + "\n" + message);
+                    }
+                });
+            }
+
+            @Override
+            public void onClose(int i, String s, boolean b) {
+                Log.i("Websocket", "Closed " + s);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.i("Websocket", "Error " + e.getMessage());
+            }
+        };
+        miWebSocket.connect()
+}
+
+
+    public void sendMessage(View view) {
+        EditText editText = (EditText)findViewById(R.id.message);
+        miWebSocket.send(editText.getText().toString());
+        editText.setText("");
+    }
+
 }
